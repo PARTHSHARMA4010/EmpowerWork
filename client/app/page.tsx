@@ -20,8 +20,13 @@ export default function Home() {
                 AI-powered career training, job matching, and employer resources for people with disabilities.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button size="lg" asChild>
-                  <Link href="/jobs">Find Jobs</Link>
+              <Button
+                  size="lg"
+                  variant="outline"
+                  className="bg-white/10 text-white border-white/20 hover:bg-white/20"
+                  asChild
+                >
+                  <Link href="/employers">Find Jobs</Link>
                 </Button>
                 <Button size="lg" variant="secondary" asChild>
                   <Link href="/training">Start Learning</Link>
@@ -103,10 +108,9 @@ export default function Home() {
             <Button size="lg" variant="secondary" asChild>
               <Link href="/signup">Create Account</Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10" asChild>
-              <Link href="/about">
-                Learn More <ChevronRight className="ml-2 h-4 w-4" />
-              </Link>
+            <Button size="lg" variant="secondary" asChild>
+              <Link href="/signup">Learn More <ChevronRight className="ml-2 h-4 w-4 text-black" /></Link>
+              
             </Button>
           </div>
         </div>
