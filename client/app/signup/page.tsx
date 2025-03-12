@@ -27,6 +27,8 @@ export default function SignupPage() {
     setIsLoading(true)
 
     // Simulate signup process
+    // might be changed afterwards
+    
     setTimeout(() => {
       setIsLoading(false)
       router.push(userType === "job-seeker" ? "/onboarding/job-seeker" : "/onboarding/company")
