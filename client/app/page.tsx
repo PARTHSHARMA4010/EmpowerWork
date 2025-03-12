@@ -38,8 +38,7 @@ export default function Home() {
             </div>
             <div className="hidden md:block">
               <img
-                src="/placeholder.svg?height=400&width=500"
-                alt="People with disabilities working in professional environments"
+                src="/image.png"
                 className="rounded-lg shadow-lg"
               />
             </div>
