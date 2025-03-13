@@ -39,15 +39,16 @@ export function BarChart({ title, description, data, height = 300, horizontal = 
         chartInstance.current.destroy()
       }
 
-      const ctx = chartRef.current.getContext("2d")
+      const ctx = chartRef.current!.getContext("2d")
       if (!ctx) return
 
       chartInstance.current = new Chart(ctx, {
-        type: horizontal ? "horizontalBar" : "bar",
+        type: "bar",
         data: data,
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          indexAxis: horizontal ? 'y' : 'x',
           plugins: {
             legend: {
               position: "top",
@@ -70,7 +71,7 @@ export function BarChart({ title, description, data, height = 300, horizontal = 
             y: {
               beginAtZero: true,
               grid: {
-                drawBorder: false,
+                
               },
             },
           },
