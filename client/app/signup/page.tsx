@@ -1,39 +1,61 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Eye, EyeOff } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { UserTypeSelector } from "@/components/user-type-selector"
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { UserTypeSelector } from "@/components/user-type-selector";
+import { supabase } from "../../lib/supabaseClient";
 
 export default function SignupPage() {
-  const router = useRouter()
-  const [userType, setUserType] = useState<"job-seeker" | "company">("job-seeker")
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [acceptTerms, setAcceptTerms] = useState(false)
+  const router = useRouter();
+  const [userType, setUserType] = useState<"job-seeker" | "company">("job-seeker");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [acceptTerms, setAcceptTerms] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!acceptTerms) return
+    e.preventDefault();
+    setErrorMessage(""); // Clear previous errors
 
-    setIsLoading(true)
+    if (!acceptTerms) {
+      setErrorMessage("You must accept the terms and conditions.");
+      return;
+    }
 
-    // Simulate signup process
-    // might be changed afterwards
-    
-    setTimeout(() => {
-      setIsLoading(false)
-      router.push(userType === "job-seeker" ? "/onboarding/job-seeker" : "/onboarding/company")
-    }, 1500)
-  }
+    setIsLoading(true);
+
+    // Sign up with Supabase
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options:{
+        data:{userType}
+
+    } });
+
+    if (error) {
+      setErrorMessage(error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    alert("Check your email for the confirmation link!");
+    setIsLoading(false);
+
+    // setTimeout(() => {
+    //   setIsLoading(false);
+    //   router.push(userType === "job-seeker" ? "/onboarding/job-seeker" : "/onboarding/company");
+    // }, 1500);
+  };
 
   return (
     <div className="container flex min-h-screen items-center justify-center py-8">
@@ -50,19 +72,28 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="John Doe" required />
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="name@example.com" required />
+              <Input
+                id="email"
+                type="email"
+                placeholder="name@example.com"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <div className="relative">
-                <Input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••" required />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <Button
                   type="button"
                   variant="ghost"
@@ -85,10 +116,7 @@ export default function SignupPage() {
 
             <div className="flex items-start space-x-2">
               <Checkbox id="terms" checked={acceptTerms} onCheckedChange={(checked) => setAcceptTerms(!!checked)} />
-              <Label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
+              <Label htmlFor="terms" className="text-sm font-medium leading-none">
                 I agree to the{" "}
                 <Link href="/terms" className="text-primary underline-offset-4 hover:underline">
                   Terms of Service
@@ -99,6 +127,8 @@ export default function SignupPage() {
                 </Link>
               </Label>
             </div>
+
+            {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={isLoading || !acceptTerms}>
@@ -114,6 +144,5 @@ export default function SignupPage() {
         </form>
       </Card>
     </div>
-  )
+  );
 }
-

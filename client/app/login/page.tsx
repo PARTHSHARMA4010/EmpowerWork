@@ -13,21 +13,43 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { UserTypeSelector } from "@/components/user-type-selector"
 
+// adding the backend services
+import { useAuth } from "@/providers/AuthProvider";
+import { supabase } from '../../lib/supabaseClient';
+
 export default function LoginPage() {
+  const { setUser } = useAuth();
   const router = useRouter()
   const [userType, setUserType] = useState<"job-seeker" | "company">("job-seeker")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  // auth
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsLoading(true)
+    setIsLoading(true);
 
     // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false)
-      router.push(userType === "job-seeker" ? "/jobs" : "/employers/dashboard")
-    }, 1500)
+    // setTimeout(() => {
+    //   setIsLoading(false)
+    //   router.push(userType === "job-seeker" ? "/jobs" : "/employers/dashboard")
+    // }, 1500)
+    // this will take care of login
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password});
+    if (error){ console.error(error);
+    setIsLoading(false);
+    }
+    else {
+      setIsLoading(false);
+      console.log(data);
+      setUser(data.user);
+      router.push(data?.user?.user_metadata?.userType === "job-seeker" ? "/jobs" : "/employers/dashboard"); // Redirect after login
+      // not added any security functionality
+
+    }
   }
 
   return (
@@ -46,7 +68,7 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="name@example.com" required />
+              <Input id="email" value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="name@example.com"  required />
             </div>
 
             <div className="space-y-2">
@@ -60,7 +82,7 @@ export default function LoginPage() {
                 </Link>
               </div>
               <div className="relative">
-                <Input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••" required />
+                <Input id="password" value={password} onChange={(e)=>setPassword(e.target.value)} type={showPassword ? "text" : "password"} placeholder="••••••••" required />
                 <Button
                   type="button"
                   variant="ghost"
