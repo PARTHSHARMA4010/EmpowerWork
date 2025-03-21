@@ -10,5 +10,21 @@ export const getData = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 };
+
+export const getCourses = async (req,res)=>{
+    try {
+        const { email } = req.body;
+        console.log(email)
+        const { data, error } = await supabase.from("profiles").select("skills,").eq
+        ("email", email).single();
+        if (error) throw error
+        // will use by shreyank later
+        
+        res.status(200).json(data);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+}
 
