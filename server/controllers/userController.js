@@ -17,7 +17,7 @@ export const getCourses = async (req,res)=>{
     try {
         const { email } = req.body;
         console.log(email)
-        const { data, error } = await supabase.from("profiles").select("skills,").eq
+        const { data, error } = await supabase.from("profiles").select("skills").eq
         ("email", email).single();
         if (error) throw error
         // will use by shreyank later
