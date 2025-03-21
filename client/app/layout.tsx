@@ -5,7 +5,7 @@ import "./globals.css"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AppSidebar } from "@/components/app-sidebar"
-
+import { AuthProvider } from "@/providers/AuthProvider";
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <AuthProvider>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <SidebarProvider>
             <div className="flex min-h-screen">
@@ -30,6 +31,7 @@ export default function RootLayout({
             </div>
           </SidebarProvider>
         </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )
