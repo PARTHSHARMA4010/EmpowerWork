@@ -21,6 +21,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [user_name,setUserName] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ export default function SignupPage() {
       email,
       password,
       options:{
-        data:{userType}
+        data:{userType,name:user_name}
 
     } });
 
@@ -47,13 +48,17 @@ export default function SignupPage() {
       setIsLoading(false);
       return;
     }
+    
+    const { error: profileError } = await supabase.from("profiles").insert([{ email, userType, name:user_name }]);
 
+  if (profileError) console.error("Profile save error:", profileError.message);
     alert("Check your email for the confirmation link!");
     setIsLoading(false);
 
+    router.push(userType === "job-seeker" ? "/onboarding/job-seeker" : "/onboarding/company");
+
     // setTimeout(() => {
     //   setIsLoading(false);
-    //   router.push(userType === "job-seeker" ? "/onboarding/job-seeker" : "/onboarding/company");
     // }, 1500);
   };
 
@@ -69,6 +74,11 @@ export default function SignupPage() {
             <div className="space-y-2">
               <Label htmlFor="user-type">I am a:</Label>
               <UserTypeSelector value={userType} onChange={setUserType} />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input id="name" value={user_name} onChange={(e)=>setUserName(e.target.value)} placeholder="John Doe" required />
             </div>
 
             <div className="space-y-2">
