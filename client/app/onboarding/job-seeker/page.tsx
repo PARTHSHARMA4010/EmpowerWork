@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import {  useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { supabase } from "@/lib/supabaseClient"
 
 export default function JobSeekerOnboarding() {
+
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)

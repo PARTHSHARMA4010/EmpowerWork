@@ -55,7 +55,7 @@ export default function SignupPage() {
     alert("Check your email for the confirmation link!");
     setIsLoading(false);
 
-    router.push(userType === "job-seeker" ? "/onboarding/job-seeker" : "/onboarding/company");
+    router.push("/login");
 
     // setTimeout(() => {
     //   setIsLoading(false);

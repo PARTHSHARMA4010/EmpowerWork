@@ -1,10 +1,46 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PlusCircle, Users, Briefcase, FileText, BarChart3 } from "lucide-react"
 import Link from "next/link"
+import { supabase } from "@/lib/supabaseClient"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 export default function EmployerDashboard() {
+  const router = useRouter()
+  useEffect(() => {
+    const onBoardingDone = async () => {
+      try {
+        const { data: userData, error: authError } = await supabase.auth.getUser();
+        if (authError) throw authError;
+  
+        const userEmail = userData?.user?.email;
+        if (!userEmail) return;
+  
+        const { data: profilesData, error: profileError } = await supabase
+          .from("profiles")
+          .select("company_name")
+          .eq("email", userEmail);
+  
+        if (profileError) throw profileError;
+        console.log(profilesData)
+  
+        // If no profile exists, redirect
+        if (!profilesData[0].company_name || profilesData[0].company_name.length === 0) {
+          router.push("/onboarding/company");
+        }
+        console.log("No Error")
+      } catch (error) {
+        console.error("Error checking onboarding status:", error);
+      }
+    };
+  
+    onBoardingDone();
+  }, [router]);
+  
   return (
     <div className="container py-8">
       <div className="flex flex-col space-y-6">

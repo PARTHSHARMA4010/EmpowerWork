@@ -1,9 +1,10 @@
 "use client"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { JobCard } from "@/components/job-card"
+import { supabase } from "@/lib/supabaseClient"
 
 // Mock data for jobs and companies 
 const jobs = [
@@ -84,6 +85,37 @@ const featuredCompanies = [
 ]
 
 export default function JobBoard() {
+
+    const router = useRouter()
+      useEffect(() => {
+        const onBoardingDone = async () => {
+          try {
+            const { data: userData, error: authError } = await supabase.auth.getUser();
+            if (authError) throw authError;
+      
+            const userEmail = userData?.user?.email;
+            if (!userEmail) return;
+      
+            const { data: profilesData, error: profileError } = await supabase
+              .from("profiles")
+              .select("education")
+              .eq("email", userEmail);
+      
+            if (profileError) throw profileError;
+    
+            console.log(profilesData)
+            // If no profile exists, redirect
+            if (!profilesData[0].education || profilesData[0].education.length === 0) {
+              router.push("/onboarding/job-seeker");
+            }
+            console.log("No Error")
+          } catch (error) {
+            console.error("Error checking onboarding status:", error);
+          }
+        };
+      
+        onBoardingDone();
+      }, [router]);
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedLocation, setSelectedLocation] = useState("")
