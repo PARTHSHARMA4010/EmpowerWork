@@ -85,7 +85,7 @@ const featuredCompanies = [
 ]
 
 export default function JobBoard() {
-
+  // const[jobs,setJobs] = useState()
     const router = useRouter()
       useEffect(() => {
         const onBoardingDone = async () => {

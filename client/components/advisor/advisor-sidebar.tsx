@@ -130,9 +130,9 @@ export function AdvisorSidebar() {
                         key={i}
                         variant="outline"
                         size="sm"
-                        className="w-full justify-start text-left h-auto py-2 font-normal"
+                        className="w-full justify-start h-auto py-2 font-normal"
                       >
-                        {prompt}
+                        <p>{prompt}</p>
                       </Button>
                     ))}
                   </div>

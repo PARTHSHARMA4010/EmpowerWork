@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { CourseCard, type CourseProps } from "@/components/course-card"
-import { Brain, Briefcase, Code, GraduationCap, Search, Sparkles } from "lucide-react"
+import { Brain, Briefcase, Clock, Code, GraduationCap, Search, Sparkles, Star, User } from "lucide-react"
+import { supabase } from "@/lib/supabaseClient"
+import axios from "axios"
 
 // Mock data for courses
 const courses: CourseProps[] = [
@@ -197,6 +199,49 @@ const courses: CourseProps[] = [
 // Featured courses (subset of all courses)
 const featuredCourses = courses.slice(0, 3)
 
+const ReCard: React.FC<CardProps> = ({
+  id,
+  title,
+  duration,
+  rating,
+  description,
+  instructor,
+  url
+}) => {
+  return (
+    <div className="w-80 bg-white shadow-lg rounded-2xl p-4 border border-gray-200">
+      <div className="flex justify-between items-center">
+        <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+        Recommended
+        </span>
+       
+      </div>
+
+      <div className="h-24 flex items-center justify-center bg-gray-100 rounded-lg mt-4">
+        
+      </div>
+
+      <h3 className="text-lg font-semibold mt-4">{title}</h3>
+
+      <div className="flex items-center text-gray-600 text-sm mt-2">
+        <Clock size={14} className="mr-1" /> {duration}
+        <span className="mx-2">•</span>
+        <Star size={14} className="mr-1 text-yellow-500" /> {rating}
+      </div>
+
+      <p className="text-gray-500 text-sm mt-2">{description}</p>
+
+      <div className="flex justify-between items-center mt-4">
+        <span className="text-sm text-gray-700">{instructor}</span>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+          <a href={`${url}`} >Continue</a>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+
 // Categories with icons
 const categories = [
   { name: "Technology", icon: <Code className="h-5 w-5" /> },
@@ -207,6 +252,9 @@ const categories = [
 ]
 
 export default function TrainingPage() {
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([])
+  const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedLevel, setSelectedLevel] = useState("")
@@ -228,6 +276,29 @@ export default function TrainingPage() {
 
   // Courses in progress (those with progress property)
   const coursesInProgress = courses.filter((course) => course.progress !== undefined)
+
+  const fetchRecommendations = async () => {
+    const { data: user, error: userError } = await supabase.auth.getUser()
+    const email  = user.user?.email;
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await axios.post('https://empowerwork-production.up.railway.app/api/users/getCourses', {
+        email
+      })
+      console.log(response)
+      setData(response.data.recommendedCourses)
+      setLoading(false)
+    } catch (err) {
+      setError("Failed to fetch recommendations. Please try again.")
+      setLoading(false)
+      console.error("API error:", err)
+    }
+  }
+
+
+
 
   return (
     <div className="container py-8">
@@ -252,10 +323,33 @@ export default function TrainingPage() {
                 Our AI can analyze your skills, goals, and accessibility needs to create a customized learning path.
               </p>
             </div>
-            <Button className="mt-2 md:mt-0">Get Recommendations</Button>
+            <Button onClick={fetchRecommendations} disabled={loading}>
+            {loading ? "Loading..." : "Get Recommendations"}
+          </Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Recommended */}
+{Array.isArray(data) && data.length > 0 && (
+  <div className="mb-12 ">
+    <div className="flex items-center justify-between mb-6">
+    {data.map((course, idx) => {
+      const description = course.abstract.substring(0, 150) + "...";
+      return(
+      <ReCard 
+        key={idx} 
+        title={course?.course_name} 
+        duration={"<2hrs"} 
+        rating={4} 
+        description={description} 
+        instructor={course?.instructor} 
+        url={course?.course_url} 
+      />)}
+    )}
+    </div>
+  </div>
+)}
 
       {/* Featured Courses */}
       <div className="mb-12">
