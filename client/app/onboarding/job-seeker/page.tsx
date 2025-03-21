@@ -7,7 +7,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { createClient } from "@supabase/supabase-js"
 import { supabase } from "@/lib/supabaseClient"
 
 export default function JobSeekerOnboarding() {
@@ -35,27 +34,31 @@ export default function JobSeekerOnboarding() {
       setStep(step + 1)
     } else {
       setIsLoading(true)
+      try {
+        const { data: user, error: userError } = await supabase.auth.getUser()
+        if (userError) throw userError
+        console.log(user);
       
-      const { error } = await supabase.from("profiles").upsert({
-        disability_type: formData.disabilityType,
+      const { error } = await supabase.from("profiles").update({
+        disabilityType: formData.disabilityType,
         education: formData.education,
         experience: formData.experience,
         skills: formData.skills,
         certifications: formData.certifications,
-        job_type: formData.jobType,
-        work_preference: formData.workPreference,
+        jobtype: formData.jobType,
+        workpreference: formData.workPreference,
         accommodations: formData.accommodations
-      })
+      }).eq("email", user.user.email)
       
-      if (error) {
-        console.error("Error updating profile:", error)
-      } else {
-        router.push("/jobs")
-      }
-
+      if (error) throw error
+      setIsLoading(false)
+      router.push("/jobs")
+    } catch (error) {
+      console.error("Error updating profile:", error)
       setIsLoading(false)
     }
   }
+}
 
   const handleBack = () => {
     if (step > 1) {
