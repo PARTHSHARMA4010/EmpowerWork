@@ -1,4 +1,9 @@
 import supabase from "../config/supabase.js";
+import { readFile } from "fs/promises";
+import axios from 'axios'
+const allCourses = JSON.parse(
+    await readFile(new URL("../assets/coursesDetails.json", import.meta.url))
+  );
 
 // Get user profile by ID
 export const getData = async (req, res) => {
@@ -21,8 +26,10 @@ export const getCourses = async (req,res)=>{
         ("email", email).single();
         if (error) throw error
         // will use by shreyank later
-        
-        res.status(200).json(data);
+        const response = await axios.post(`https://shreyankisiri-courserecommendation.hf.space/search?query=${data.skills}`);
+        const courses = response.data
+        const filteredCourses = allCourses.filter(course => courses.includes(course.course_id));
+        res.status(200).json({ skills: data.skills, recommendedCourses: filteredCourses });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
