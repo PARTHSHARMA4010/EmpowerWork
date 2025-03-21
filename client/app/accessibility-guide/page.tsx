@@ -12,11 +12,9 @@ import {
   BookOpen,
   Lightbulb,
   Zap,
-  Layers,
   Palette,
   Volume2,
   Headphones,
-  Cpu,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -27,6 +25,10 @@ import { DisabilityGuideCard } from "@/components/accessibility/disability-guide
 import { AccessibilitySettingsPanel } from "@/components/accessibility/settings-panel"
 import { WCAGChecklist } from "@/components/accessibility/wcag-checklist"
 import { KeyboardShortcuts } from "@/components/accessibility/keyboard-shortcuts"
+import { AccessibilityStats } from "@/components/accessibility/accessibility-stats"
+import { AccessibilityFeatureDemo } from "@/components/accessibility/feature-demo"
+import { BeforeAfterExamples } from "@/components/accessibility/before-after-examples"
+import { VideoTutorials } from "@/components/accessibility/video-tutorials"
 
 export const metadata: Metadata = {
   title: "Accessibility Guide | EmpowerWork",
@@ -133,6 +135,30 @@ export default function AccessibilityGuidePage() {
               </CardFooter>
             </Card>
           </div>
+        </section>
+
+     
+
+        {/* Interactive Feature Demo */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold">Experience Accessibility Features</h2>
+            <p className="mt-2 text-muted-foreground">
+              Try out different accessibility settings to see how they transform the user experience
+            </p>
+          </div>
+
+          <AccessibilityFeatureDemo />
+        </section>
+
+        {/* Before & After Examples */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold">Accessibility in Action</h2>
+            <p className="mt-2 text-muted-foreground">See the difference accessibility improvements make</p>
+          </div>
+
+          <BeforeAfterExamples />
         </section>
 
         {/* Platform Accessibility Features */}
@@ -456,319 +482,19 @@ export default function AccessibilityGuidePage() {
                 </li>
               </ul>
             </AccessibilityFeatureCard>
-
-            <AccessibilityFeatureCard
-              icon={<Brain className="h-5 w-5" />}
-              title="Cognitive Support"
-              description="Features for cognitive accessibility"
-            >
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Simplified interface option</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Reading assistance tools</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Predictive text input</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Progress saving</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Clear error messages</span>
-                </li>
-              </ul>
-            </AccessibilityFeatureCard>
-
-            <AccessibilityFeatureCard
-              icon={<Layers className="h-5 w-5" />}
-              title="Content Adaptations"
-              description="Features for content accessibility"
-            >
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Alt text for all images</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Plain language summaries</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Multiple format availability</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Printable versions</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Multilingual support</span>
-                </li>
-              </ul>
-            </AccessibilityFeatureCard>
-
-            <AccessibilityFeatureCard
-              icon={<Cpu className="h-5 w-5" />}
-              title="Device Compatibility"
-              description="Features for device accessibility"
-            >
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Responsive design</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Assistive technology compatibility</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Cross-browser support</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Low bandwidth options</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-0.5 rounded-full bg-primary/10 p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-primary"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </span>
-                  <span>Offline capabilities</span>
-                </li>
-              </ul>
-            </AccessibilityFeatureCard>
           </div>
+        </section>
+
+        {/* Video Tutorials */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-bold">Video Tutorials</h2>
+            <p className="mt-2 text-muted-foreground">
+              Learn how to use accessibility features through visual demonstrations
+            </p>
+          </div>
+
+          <VideoTutorials />
         </section>
 
         {/* Disability Guides */}
