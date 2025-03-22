@@ -162,12 +162,12 @@ const successStories = [
   {
     id: "1",
     name: "Michael Chen",
-    image: "/placeholder.svg?height=300&width=400",
-    disability: "Visual Impairment",
+    image: "https://youngleaderssummit.org/wp-content/uploads/2024/01/Michael-Chen-Headshot-Michael-Chen-e1705425786691.jpg?height=300&width=400",
+    disability: "Mobility Disorder",
     previousRole: "Customer Service Representative",
     currentRole: "Software Developer",
     company: "TechCorp",
-    companyLogo: "/placeholder.svg?height=50&width=50",
+    companyLogo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbqzXb0frYPXslo6raQm6Jaw5Nhp46A94orw&s?height=50&width=50",
     quote:
       "EmpowerWork's training program helped me transition into tech. Their job board connected me with an employer who values my skills and provides the accommodations I need.",
     featured: true,
@@ -175,29 +175,28 @@ const successStories = [
   {
     id: "2",
     name: "Sarah Johnson",
-    image: "/placeholder.svg?height=300&width=400",
-    disability: "Mobility Disability",
+    image: "https://as2.ftcdn.net/v2/jpg/06/49/16/63/1000_F_649166337_zROME09I9EAqBg4GhCcsA0cvXUUswf9r.jpg?height=300&width=400",
+    disability:  "Visual Impairment",
     previousRole: "Administrative Assistant",
     currentRole: "Digital Marketing Specialist",
     company: "CreativeAgency",
-    companyLogo: "/placeholder.svg?height=50&width=50",
+    companyLogo: "https://img.freepik.com/premium-vector/free-vector-blue-green-gradient-modern-letter-d-digital-marketing-logo-design_883906-876.jpg?semt=ais_hybrid?height=50&width=50",
     quote:
       "The AI career advisor helped me identify my strengths and find a career path that works with my disability. I'm now thriving in a role I love.",
   },
   {
     id: "3",
     name: "Aisha Patel",
-    image: "/placeholder.svg?height=300&width=400",
+    image: "https://en-media.thebetterindia.com/uploads/2019/08/Saumya-123-WP.jpg?height=300&width=400",
     disability: "Hearing Impairment",
     previousRole: "Retail Associate",
     currentRole: "Customer Success Manager",
     company: "CloudServices",
-    companyLogo: "/placeholder.svg?height=50&width=50",
+    companyLogo: "https://img.freepik.com/premium-vector/cloud-hosting-logo_617280-420.jpg?height=50&width=50",
     quote:
       "From resume building to interview prep, EmpowerWork supported me every step of the way. Their platform truly understands the unique challenges PwDs face in the job market.",
   },
 ]
-
 export default function ImpactDashboard() {
   const [timeframe, setTimeframe] = useState("year")
   const [region, setRegion] = useState("all")

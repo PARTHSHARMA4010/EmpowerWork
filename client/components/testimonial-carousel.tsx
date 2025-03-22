@@ -11,7 +11,7 @@ const testimonials = [
     name: "Sarah Johnson",
     role: "Software Developer",
     company: "TechCorp",
-    image: "/placeholder.svg?height=80&width=80",
+    image: "https://as2.ftcdn.net/v2/jpg/06/49/16/63/1000_F_649166337_zROME09I9EAqBg4GhCcsA0cvXUUswf9r.jpg?height=80&width=80",
     quote:
       "EmpowerWork's AI training helped me transition into tech. Their job board connected me with an employer who values my skills and provides the accommodations I need.",
   },
@@ -20,7 +20,7 @@ const testimonials = [
     name: "Michael Chen",
     role: "Digital Marketing Specialist",
     company: "CreativeAgency",
-    image: "/placeholder.svg?height=80&width=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbqzXb0frYPXslo6raQm6Jaw5Nhp46A94orw&s?height=80&width=80",
     quote:
       "The AI career advisor helped me identify my strengths and find a career path that works with my disability. I'm now thriving in a role I love.",
   },
@@ -29,7 +29,7 @@ const testimonials = [
     name: "Aisha Patel",
     role: "Customer Success Manager",
     company: "CloudServices",
-    image: "/placeholder.svg?height=80&width=80",
+    image: "https://en-media.thebetterindia.com/uploads/2019/08/Saumya-123-WP.jpg?height=80&width=80",
     quote:
       "From resume building to interview prep, EmpowerWork supported me every step of the way. Their platform truly understands the unique challenges PwDs face in the job market.",
   },
