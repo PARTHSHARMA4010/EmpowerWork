@@ -1,152 +1,68 @@
 import { Skeleton } from "@/components/ui/skeleton"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
-export default function AccessibilityGuideLoading() {
+export default function AIAdvisorLoading() {
   return (
-    <div className="container mx-auto py-6 md:py-10">
-      {/* Page Header */}
-      <div className="space-y-4">
-        <Skeleton className="h-10 w-[250px]" />
-        <Skeleton className="h-5 w-[350px]" />
-      </div>
-
-      <Skeleton className="h-[1px] w-full my-6" />
-
-      {/* Main Content */}
-      <div className="space-y-10">
-        {/* Introduction */}
-        <section className="space-y-4">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-4">
-              <Skeleton className="h-8 w-[200px]" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[80%]" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[90%]" />
-              <div className="flex gap-3 mt-6">
-                <Skeleton className="h-10 w-[150px]" />
-                <Skeleton className="h-10 w-[150px]" />
+    <div className="flex flex-col min-h-screen">
+      {/* Hero Section Skeleton */}
+      <section className="bg-primary py-16 md:py-24">
+        <div className="container mx-auto max-w-6xl px-4 md:px-6 lg:px-8">
+          <div className="grid gap-12 md:grid-cols-2 md:items-center">
+            <div className="flex flex-col space-y-6">
+              <Skeleton className="h-8 w-32 bg-primary-foreground/20" />
+              <Skeleton className="h-14 w-full max-w-md bg-primary-foreground/20" />
+              <Skeleton className="h-10 w-full max-w-sm bg-primary-foreground/20" />
+              <div className="flex space-x-3">
+                <Skeleton className="h-12 w-32 bg-primary-foreground/20" />
+                <Skeleton className="h-12 w-32 bg-primary-foreground/20" />
               </div>
             </div>
-            <Card>
-              <CardHeader>
-                <Skeleton className="h-6 w-[200px] mb-2" />
-                <Skeleton className="h-4 w-[250px]" />
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                  <div className="space-y-2 flex-1">
-                    <Skeleton className="h-5 w-[150px]" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                  <div className="space-y-2 flex-1">
-                    <Skeleton className="h-5 w-[150px]" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                  <div className="space-y-2 flex-1">
-                    <Skeleton className="h-5 w-[150px]" />
-                    <Skeleton className="h-4 w-full" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <Skeleton className="aspect-square max-w-md rounded-2xl bg-primary-foreground/20" />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Statistics */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <Skeleton className="h-8 w-[200px]" />
-            <Skeleton className="h-4 w-[300px]" />
+      {/* Main Content Skeleton */}
+      <section className="py-8 px-4 md:px-6 lg:px-8">
+        <div className="container mx-auto max-w-6xl">
+          <Skeleton className="h-[600px] w-full rounded-xl" />
+        </div>
+      </section>
+
+      {/* Features Section Skeleton */}
+      <section className="py-12 px-4 md:px-6 lg:px-8 bg-muted/50">
+        <div className="container mx-auto max-w-6xl">
+          <div className="space-y-8">
+            <div className="text-center space-y-4">
+              <Skeleton className="h-10 w-64 mx-auto" />
+              <Skeleton className="h-6 w-full max-w-2xl mx-auto" />
+            </div>
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="h-48 w-full rounded-xl" />
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card>
-              <CardContent className="pt-6">
-                <Skeleton className="h-6 w-[250px] mb-4" />
-                <Skeleton className="h-[300px] w-full" />
-              </CardContent>
-            </Card>
+      {/* Testimonials Section Skeleton */}
+      <section className="py-12 px-4 md:px-6 lg:px-8">
+        <div className="container mx-auto max-w-6xl">
+          <div className="space-y-8">
+            <div className="text-center space-y-4">
+              <Skeleton className="h-10 w-48 mx-auto" />
+              <Skeleton className="h-6 w-full max-w-2xl mx-auto" />
+            </div>
 
-            <Card>
-              <CardContent className="pt-6">
-                <Skeleton className="h-6 w-[250px] mb-4" />
-                <Skeleton className="h-[300px] w-full" />
-              </CardContent>
-            </Card>
+            <div className="grid gap-6 md:grid-cols-3">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-64 w-full rounded-xl" />
+              ))}
+            </div>
           </div>
-        </section>
-
-        {/* Feature Demo */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <Skeleton className="h-8 w-[250px]" />
-            <Skeleton className="h-4 w-[350px]" />
-          </div>
-
-          <Card>
-            <CardContent className="pt-6">
-              <Skeleton className="h-6 w-[200px] mb-4" />
-              <Skeleton className="h-4 w-[80%] mb-6" />
-
-              <div className="space-y-6">
-                <Skeleton className="h-10 w-full" />
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-4">
-                    <Skeleton className="h-8 w-full" />
-                    <Skeleton className="h-8 w-full" />
-                    <Skeleton className="h-8 w-full" />
-                    <Skeleton className="h-8 w-full" />
-                  </div>
-
-                  <Skeleton className="h-[200px] w-full" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Features Grid */}
-        <section className="space-y-6">
-          <div className="space-y-2">
-            <Skeleton className="h-8 w-[300px]" />
-            <Skeleton className="h-4 w-[400px]" />
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i}>
-                <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                  <Skeleton className="h-10 w-10 rounded-full" />
-                  <div>
-                    <Skeleton className="h-5 w-[120px]" />
-                    <Skeleton className="h-4 w-[150px] mt-1" />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {[...Array(5)].map((_, j) => (
-                      <div key={j} className="flex items-start gap-2">
-                        <Skeleton className="h-5 w-5 rounded-full mt-0.5" />
-                        <Skeleton className="h-4 w-full" />
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   )
 }
