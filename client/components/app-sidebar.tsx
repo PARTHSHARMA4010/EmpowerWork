@@ -11,9 +11,10 @@ import {
   LogIn,
   UserPlus,
   Menu,
+  LogOut, // Import the LogOut icon
 } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   Sidebar,
@@ -26,6 +27,8 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabaseClient" // Adjust the import based on your project structure
 
 const mainNavItems = [
   {
@@ -50,7 +53,7 @@ const mainNavItems = [
   },
   {
     title: "For Employers",
-    href: "/employers",
+    href: "/employers/dashboard",
     icon: Building2,
   },
   {
@@ -68,6 +71,33 @@ const mainNavItems = [
 export function AppSidebar() {
   const pathname = usePathname()
   const { isMobile } = useSidebar()
+  const router = useRouter();
+  
+  const [user, setUser] = useState(null)
+
+  // Check user authentication state
+  useEffect(() => {
+    const session = supabase.auth.getSession()
+    
+    if (session) {
+      setUser(session.user)
+    }
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user || null)
+    })
+
+    return () => {
+      authListener.subscription.unsubscribe()
+    }
+  }, [])
+
+  // Sign out function
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    setUser(null)
+    router.push("/")
+  }
 
   return (
     <>
@@ -108,22 +138,32 @@ export function AppSidebar() {
 
         <SidebarFooter className="p-4">
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="outline" size="sm" asChild className="w-full">
-              <Link href="/login">
-                <LogIn className="mr-2 h-4 w-4" />
-                <span>Log In</span>
-              </Link>
-            </Button>
-            <Button size="sm" asChild className="w-full">
-              <Link href="/signup">
-                <UserPlus className="mr-2 h-4 w-4" />
-                <span>Sign Up</span>
-              </Link>
-            </Button>
+            {user ? (
+              // Show Sign Out button if user is logged in
+              <Button size="sm" color="anger" variant="outline" onClick={handleSignOut} className="w-full">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Sign Out</span>
+              </Button>
+            ) : (
+              <>
+                {/* Show Login and Sign Up buttons if user is not logged in */}
+                <Button variant="outline" size="sm" asChild className="w-full">
+                  <Link href="/login">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    <span>Log In</span>
+                  </Link>
+                </Button>
+                <Button size="sm" asChild className="w-full">
+                  <Link href="/signup">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    <span>Sign Up</span>
+                  </Link>
+                </Button>
+              </>
+            )}
           </div>
         </SidebarFooter>
       </Sidebar>
     </>
   )
 }
-
