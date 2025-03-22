@@ -17,7 +17,7 @@ const courses: CourseProps[] = [
     id: "web-development-basics",
     title: "Web Development Fundamentals for Accessibility",
     description: "Learn the basics of web development with a focus on creating accessible websites and applications.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20221222184908/web-development1.png?height=400&width=600",
     category: "Technology",
     level: "Beginner",
     duration: "8 weeks",
@@ -27,7 +27,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "Sarah Johnson",
       title: "Senior Web Developer",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2023/04/Sarah-Wang-v2.png?height=80&width=80?height=100&width=100",
     },
     accessibilityFeatures: ["Screen Reader Compatible", "Closed Captions", "Keyboard Navigable", "Self-Paced"],
     skillsGained: ["HTML5", "CSS3", "JavaScript", "ARIA", "Accessibility Testing"],
@@ -36,7 +36,7 @@ const courses: CourseProps[] = [
     id: "interview-skills",
     title: "Interview Skills for People with Disabilities",
     description: "Master the art of interviewing with strategies tailored for people with disabilities.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://www.wscubetech.com/blog/wp-content/uploads/2024/03/key-skills-for-interview.webp?height=400&width=600",
     category: "Career Development",
     level: "Intermediate",
     duration: "4 weeks",
@@ -45,7 +45,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "Michael Chen",
       title: "Career Coach",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://files.idyllic.app/files/static/192012?width=256&optimizer=image?height=100&width=100",
     },
     accessibilityFeatures: ["Screen Reader Compatible", "Closed Captions", "Transcripts Available", "Self-Paced"],
     skillsGained: [
@@ -60,7 +60,7 @@ const courses: CourseProps[] = [
     id: "data-analysis",
     title: "Data Analysis with Python",
     description: "Learn data analysis techniques using Python with accessible tools and methods.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://schportalmedia.s3.amazonaws.com/courseimg/data-analysis-with-python-course.png?height=400&width=600",
     category: "Technology",
     level: "Intermediate",
     duration: "10 weeks",
@@ -69,7 +69,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "Aisha Patel",
       title: "Data Scientist",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2023/04/Sarah-Wang-v2.png?height=80&width=80?height=100&width=100"
     },
     accessibilityFeatures: [
       "Screen Reader Compatible",
@@ -83,7 +83,7 @@ const courses: CourseProps[] = [
     id: "digital-marketing",
     title: "Digital Marketing Essentials",
     description: "Master the fundamentals of digital marketing with accessible tools and techniques.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://digitallearning.eletsonline.com/wp-content/uploads/2019/04/Digital-Marketing.jpg?height=400&width=600",
     category: "Marketing",
     level: "Beginner",
     duration: "6 weeks",
@@ -93,7 +93,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "James Wilson",
       title: "Marketing Director",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://files.idyllic.app/files/static/192012?width=256&optimizer=image?height=100&width=100",
     },
     accessibilityFeatures: ["Closed Captions", "Transcripts Available", "Self-Paced", "Cognitive Aids"],
     skillsGained: ["SEO", "Social Media Marketing", "Content Creation", "Email Marketing", "Analytics"],
@@ -102,7 +102,7 @@ const courses: CourseProps[] = [
     id: "project-management",
     title: "Adaptive Project Management",
     description: "Learn project management methodologies with adaptations for various disabilities.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://i.pinimg.com/736x/bd/13/44/bd13444a2663030d7cf9789caee80c04.jpg?height=400&width=600",
     category: "Business",
     level: "Advanced",
     duration: "12 weeks",
@@ -111,7 +111,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "Elena Rodriguez",
       title: "PMP Certified Project Manager",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2023/04/Sarah-Wang-v2.png?height=80&width=80?height=100&width=100"
     },
     accessibilityFeatures: ["Screen Reader Compatible", "Closed Captions", "Keyboard Navigable", "Self-Paced"],
     skillsGained: [
@@ -126,7 +126,7 @@ const courses: CourseProps[] = [
     id: "customer-service",
     title: "Customer Service Excellence",
     description: "Develop exceptional customer service skills with accommodations for different abilities.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://www.aim.com.au/sites/default/files/00960_AIM_Screens_CustomerServiceExcellence_640x360.png?height=400&width=600",
     category: "Business",
     level: "Beginner",
     duration: "5 weeks",
@@ -135,7 +135,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "David Kim",
       title: "Customer Experience Specialist",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://files.idyllic.app/files/static/192012?width=256&optimizer=image?height=100&width=100",
     },
     accessibilityFeatures: ["Hearing Accessible", "Closed Captions", "Transcripts Available", "Self-Paced"],
     skillsGained: [
@@ -150,7 +150,7 @@ const courses: CourseProps[] = [
     id: "graphic-design",
     title: "Accessible Graphic Design",
     description: "Learn graphic design principles with a focus on accessibility and universal design.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://learndigital.co/wp-content/uploads/2023/08/G.-Pic.png?height=400&width=600",
     category: "Design",
     level: "Intermediate",
     duration: "8 weeks",
@@ -159,7 +159,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "Olivia Martinez",
       title: "Senior Graphic Designer",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2023/04/Sarah-Wang-v2.png?height=80&width=80?height=100&width=100"
     },
     accessibilityFeatures: ["Screen Reader Compatible", "Alternative Navigation", "Cognitive Aids", "Self-Paced"],
     skillsGained: [
@@ -174,7 +174,7 @@ const courses: CourseProps[] = [
     id: "public-speaking",
     title: "Confident Public Speaking",
     description: "Build public speaking skills with techniques adapted for various disabilities.",
-    image: "/placeholder.svg?height=400&width=600",
+    image: "https://shiminly.com/wp-content/uploads/2023/01/11.webp?height=400&width=600",
     category: "Communication",
     level: "Beginner",
     duration: "6 weeks",
@@ -183,7 +183,7 @@ const courses: CourseProps[] = [
     instructor: {
       name: "Thomas Wright",
       title: "Communication Coach",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "https://files.idyllic.app/files/static/192012?width=256&optimizer=image?height=100&width=100",
     },
     accessibilityFeatures: ["Hearing Accessible", "Closed Captions", "Transcripts Available", "Self-Paced"],
     skillsGained: [
