@@ -1,14 +1,14 @@
-import type { Metadata } from "next"
-import { AIAdvisorChat } from "@/components/ai-advisor/chat"
-import { AIAdvisorHeader } from "@/components/ai-advisor/header"
-import { AIAdvisorFeatures } from "@/components/ai-advisor/features"
-import { AIAdvisorTestimonials } from "@/components/ai-advisor/testimonials"
-import { Footer } from "@/components/footer"
+import type { Metadata } from "next";
+import { AIAdvisorChat } from "@/components/ai-advisor/chat";
+import { AIAdvisorHeader } from "@/components/ai-advisor/header";
+import { AIAdvisorFeatures } from "@/components/ai-advisor/features";
+import { AIAdvisorTestimonials } from "@/components/ai-advisor/testimonials";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "AI Career Advisor | EmpowerWork",
   description: "Get personalized career guidance tailored to your unique abilities and goals.",
-}
+};
 
 export default function AIAdvisorPage() {
   return (
@@ -40,5 +40,5 @@ export default function AIAdvisorPage() {
 
       <Footer />
     </div>
-  )
+  );
 }
