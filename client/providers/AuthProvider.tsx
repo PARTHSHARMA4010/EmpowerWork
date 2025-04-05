@@ -1,32 +1,33 @@
+// client/providers/AuthProvider.tsx
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { auth } from "@/lib/firebaseClient";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
-const AuthContext = createContext<any>(null);
+interface AuthContextType {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  setUser: () => {}
+});
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      console.log(user)
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("Auth state changed:", user);
       setUser(user);
-    };
-
-    fetchUser();
-
-    // Listen for auth state changes
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
     });
 
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, []);
 
   return (

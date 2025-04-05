@@ -1,7 +1,7 @@
+// client/app/login/page.tsx
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -13,9 +13,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { UserTypeSelector } from "@/components/user-type-selector"
 
-// adding the backend services
-import { useAuth } from "@/providers/AuthProvider";
-import { supabase } from '../../lib/supabaseClient';
+// Firebase imports
+import { useAuth } from "@/providers/AuthProvider"
+import { auth } from '@/lib/firebaseClient'
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { doc, getDoc, getFirestore } from "firebase/firestore"
 
 export default function LoginPage() {
   const { setUser } = useAuth();
@@ -23,32 +25,38 @@ export default function LoginPage() {
   const [userType, setUserType] = useState<"job-seeker" | "company">("job-seeker")
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  // auth
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const db = getFirestore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true);
-
-    // Simulate login process
-    // setTimeout(() => {
-    //   setIsLoading(false)
-    //   router.push(userType === "job-seeker" ? "/jobs" : "/employers/dashboard")
-    // }, 1500)
-    // this will take care of login
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password});
-    if (error){ console.error(error);
-    setIsLoading(false);
-    }
-    else {
+    setErrorMessage("");
+    
+    try {
+      // Sign in with email and password
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Get additional user data from Firestore
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      const userData = userDoc.data();
+      
+      setUser(user);
+      
+      // Redirect based on user type
+      if (userData && userData.userType) {
+        router.push(userData.userType === "job-seeker" ? "/jobs" : "/employers/dashboard");
+      } else {
+        router.push("/jobs"); // Default redirect
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      setErrorMessage(error.message || "Failed to sign in");
+    } finally {
       setIsLoading(false);
-      console.log(data);
-      setUser(data.user);
-      router.push(data?.user?.user_metadata?.userType === "job-seeker" ? "/jobs" : "/employers/dashboard"); // Redirect after login
-      // not added any security functionality
-
     }
   }
 
@@ -68,7 +76,7 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="name@example.com"  required />
+              <Input id="email" value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="name@example.com" required />
             </div>
 
             <div className="space-y-2">
@@ -109,6 +117,8 @@ export default function LoginPage() {
                 Remember me
               </Label>
             </div>
+            
+            {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
@@ -126,4 +136,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

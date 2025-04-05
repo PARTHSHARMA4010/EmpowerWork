@@ -5,42 +5,57 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { PlusCircle, Users, Briefcase, FileText, BarChart3 } from "lucide-react"
 import Link from "next/link"
-import { supabase } from "@/lib/supabaseClient"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import {onAuthStateChanged } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { auth, db } from "@/lib/firebaseClient"
+
 
 export default function EmployerDashboard() {
-  const router = useRouter()
+  const router = useRouter();
+
   useEffect(() => {
-    const onBoardingDone = async () => {
+    const checkOnboardingStatus = async () => {
       try {
-        const { data: userData, error: authError } = await supabase.auth.getUser();
-        if (authError) throw authError;
-  
-        const userEmail = userData?.user?.email;
-        if (!userEmail) return;
-  
-        const { data: profilesData, error: profileError } = await supabase
-          .from("profiles")
-          .select("company_name")
-          .eq("email", userEmail);
-  
-        if (profileError) throw profileError;
-        console.log(profilesData)
-  
-        // If no profile exists, redirect
-        if (!profilesData[0].company_name || profilesData[0].company_name.length === 0) {
-          router.push("/onboarding/company");
-        }
-        console.log("No Error")
+        // Set up auth state listener
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const userEmail = user.email;
+            if (!userEmail) return;
+
+            // Get user profile from Firestore
+            const profileRef = doc(db, "profiles", user.uid);
+            const profileSnap = await getDoc(profileRef);
+
+            if (profileSnap.exists()) {
+              const profileData = profileSnap.data();
+              
+              // If company name is not set, redirect to onboarding
+              if (!profileData.company_name || profileData.company_name.length === 0) {
+                router.push("/onboarding/company");
+              }
+            } else {
+              // Profile doesn't exist, redirect to onboarding
+              router.push("/onboarding/company");
+            }
+            console.log("No Error");
+          } else {
+            // User is not signed in, redirect to login
+            router.push("/login");
+          }
+        });
+
+        // Clean up the listener
+        return () => unsubscribe();
       } catch (error) {
         console.error("Error checking onboarding status:", error);
       }
     };
-  
-    onBoardingDone();
+
+    checkOnboardingStatus();
   }, [router]);
-  
+
   return (
     <div className="container py-8">
       <div className="flex flex-col space-y-6">
@@ -226,4 +241,3 @@ export default function EmployerDashboard() {
     </div>
   )
 }
-

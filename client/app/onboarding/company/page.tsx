@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-
-import { supabase } from "@/lib/supabaseClient"
+import { auth, db } from "@/lib/firebaseClient"
+import { doc, updateDoc } from "firebase/firestore"
 
 export default function CompanyOnboarding() {
   const router = useRouter()
@@ -45,10 +45,13 @@ export default function CompanyOnboarding() {
 
   const saveCompanyProfile = async () => {
     try {
-      const { data: user, error: userError } = await supabase.auth.getUser()
-      if (userError) throw userError
-
-      const { error } = await supabase.from("profiles").update({
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        throw new Error("No authenticated user found");
+      }
+      
+      // Update company profile in Firestore
+      await updateDoc(doc(db, "profiles", currentUser.uid), {
         company_name: companyName,
         industry,
         company_size: companySize,
@@ -59,9 +62,8 @@ export default function CompanyOnboarding() {
         hiring_timeline: hiringTimeline,
         open_positions: openPositions,
         remote_policy: remotePolicy,
-      }).eq("email", user.user.email)
-
-      if (error) throw error
+        updatedAt: new Date().toISOString()
+      });
 
       setIsLoading(false)
       router.push("/employers/dashboard")

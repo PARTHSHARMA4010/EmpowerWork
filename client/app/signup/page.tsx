@@ -1,3 +1,4 @@
+// client/app/signup/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -10,7 +11,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { UserTypeSelector } from "@/components/user-type-selector";
-import { supabase } from "../../lib/supabaseClient";
+
+// Firebase imports
+import { auth, db } from "@/lib/firebaseClient";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -21,11 +26,11 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [user_name,setUserName] = useState("");
+  const [userName, setUserName] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear previous errors
+    setErrorMessage(""); 
 
     if (!acceptTerms) {
       setErrorMessage("You must accept the terms and conditions.");
@@ -34,32 +39,37 @@ export default function SignupPage() {
 
     setIsLoading(true);
 
-    // Sign up with Supabase
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options:{
-        data:{userType,name:user_name}
-
-    } });
-
-    if (error) {
-      setErrorMessage(error.message);
+    try {
+      // Create user with Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Send email verification
+      await sendEmailVerification(user);
+      
+      // Create user profile document in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email,
+        userType,
+        name: userName,
+        createdAt: new Date().toISOString()
+      });
+      
+      // Create profile document
+      await setDoc(doc(db, "profiles", user.uid), {
+        email,
+        userType,
+        name: userName
+      });
+      
+      alert("Check your email for the confirmation link!");
+      router.push("/login");
+    } catch (error: any) {
+      setErrorMessage(error.message || "Error creating account");
+      console.error("Signup error:", error);
+    } finally {
       setIsLoading(false);
-      return;
     }
-    
-    const { error: profileError } = await supabase.from("profiles").insert([{ email, userType, name:user_name }]);
-
-  if (profileError) console.error("Profile save error:", profileError.message);
-    alert("Check your email for the confirmation link!");
-    setIsLoading(false);
-
-    router.push("/login");
-
-    // setTimeout(() => {
-    //   setIsLoading(false);
-    // }, 1500);
   };
 
   return (
@@ -78,7 +88,7 @@ export default function SignupPage() {
 
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" value={user_name} onChange={(e)=>setUserName(e.target.value)} placeholder="John Doe" required />
+              <Input id="name" value={userName} onChange={(e)=>setUserName(e.target.value)} placeholder="John Doe" required />
             </div>
 
             <div className="space-y-2">

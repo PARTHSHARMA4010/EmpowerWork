@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { JobCard } from "@/components/job-card"
-import { supabase } from "@/lib/supabaseClient"
+import {onAuthStateChanged } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { auth, db } from "@/lib/firebaseClient"
 
 // Mock data for jobs and companies 
 const jobs = [
@@ -85,40 +87,51 @@ const featuredCompanies = [
 ]
 
 export default function JobBoard() {
-  // const[jobs,setJobs] = useState()
-    const router = useRouter()
-      useEffect(() => {
-        const onBoardingDone = async () => {
-          try {
-            const { data: userData, error: authError } = await supabase.auth.getUser();
-            if (authError) throw authError;
-      
-            const userEmail = userData?.user?.email;
+  const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
+  
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        // Set up auth state listener
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const userEmail = user.email;
             if (!userEmail) return;
-      
-            const { data: profilesData, error: profileError } = await supabase
-              .from("profiles")
-              .select("education")
-              .eq("email", userEmail);
-      
-            if (profileError) throw profileError;
-    
-            console.log(profilesData)
-            // If no profile exists, redirect
-            if (!profilesData[0].education || profilesData[0].education.length === 0) {
+
+            // Get user profile from Firestore
+            const profileRef = doc(db, "profiles", user.uid);
+            const profileSnap = await getDoc(profileRef);
+
+            if (profileSnap.exists()) {
+              const profileData = profileSnap.data();
+              
+              // If education is not set, redirect to job seeker onboarding
+              if (!profileData.education || profileData.education.length === 0) {
+                router.push("/onboarding/job-seeker");
+              }
+            } else {
+              // Profile doesn't exist, redirect to onboarding
               router.push("/onboarding/job-seeker");
             }
-            console.log("No Error")
-          } catch (error) {
-            console.error("Error checking onboarding status:", error);
+            console.log("No Error");
+          } else {
+            // User is not signed in, redirect to login
+            router.push("/login");
           }
-        };
-      
-        onBoardingDone();
-      }, [router]);
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("")
-  const [selectedLocation, setSelectedLocation] = useState("")
+        });
+
+        // Clean up the listener
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error checking onboarding status:", error);
+      }
+    };
+
+    checkOnboardingStatus();
+  }, [router]);
 
   const filteredJobs = jobs.filter((job) => {
     return (
@@ -128,7 +141,6 @@ export default function JobBoard() {
     );
   });
   
-
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8">Accessible Job Board for PwD Job Seekers</h1>
@@ -164,7 +176,6 @@ export default function JobBoard() {
           </SelectContent>
         </Select>
         <Select value={selectedLocation} onValueChange={setSelectedLocation}>
-          {/* this might work fine */}
           <SelectTrigger>
             <SelectValue placeholder="Filter by Location" />
           </SelectTrigger>
@@ -189,4 +200,3 @@ export default function JobBoard() {
     </div>
   )
 }
-

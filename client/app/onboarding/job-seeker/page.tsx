@@ -1,16 +1,17 @@
+// client/app/onboarding/job-seeker/page.tsx
 "use client"
 
-import {  useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { supabase } from "@/lib/supabaseClient"
+import { auth, db } from "@/lib/firebaseClient"
+import { doc, updateDoc } from "firebase/firestore"
 
 export default function JobSeekerOnboarding() {
-
   const router = useRouter()
   const [step, setStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
@@ -26,7 +27,7 @@ export default function JobSeekerOnboarding() {
     accommodations: ""
   })
 
-  const handleChange = (field:any, value:any) => {
+  const handleChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value })
   }
 
@@ -36,30 +37,32 @@ export default function JobSeekerOnboarding() {
     } else {
       setIsLoading(true)
       try {
-        const { data: user, error: userError } = await supabase.auth.getUser()
-        if (userError) throw userError
-        console.log(user);
-      
-      const { error } = await supabase.from("profiles").update({
-        disabilityType: formData.disabilityType,
-        education: formData.education,
-        experience: formData.experience,
-        skills: formData.skills,
-        certifications: formData.certifications,
-        jobtype: formData.jobType,
-        workpreference: formData.workPreference,
-        accommodations: formData.accommodations
-      }).eq("email", user.user.email)
-      
-      if (error) throw error
-      setIsLoading(false)
-      router.push("/jobs")
-    } catch (error) {
-      console.error("Error updating profile:", error)
-      setIsLoading(false)
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+          throw new Error("No authenticated user found");
+        }
+        
+        // Update profile in Firestore
+        await updateDoc(doc(db, "profiles", currentUser.uid), {
+          disabilityType: formData.disabilityType,
+          education: formData.education,
+          experience: formData.experience,
+          skills: formData.skills,
+          certifications: formData.certifications,
+          jobType: formData.jobType,
+          workPreference: formData.workPreference,
+          accommodations: formData.accommodations,
+          updatedAt: new Date().toISOString()
+        });
+        
+        setIsLoading(false)
+        router.push("/jobs")
+      } catch (error) {
+        console.error("Error updating profile:", error)
+        setIsLoading(false)
+      }
     }
   }
-}
 
   const handleBack = () => {
     if (step > 1) {
@@ -184,5 +187,3 @@ export default function JobSeekerOnboarding() {
     </div>
   )
 }
-
-
