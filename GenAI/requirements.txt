@@ -1,0 +1,11 @@
+fastapi
+pydantic
+pydantic[email]
+uvicorn
+python-multipart
+sentence-transformers
+numpy
+pandas
+scikit-learn
+google-genai
+aiofiles
