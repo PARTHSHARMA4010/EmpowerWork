@@ -7,7 +7,7 @@ from pprint import pprint
 
 # Configuration
 BASE_URL = "http://localhost:8000"
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", 'AIzaSyBi4OBB4-Vo5ATsBxspJEwgnkgEYKEJdsQ')
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", 'Key here')
 
 # Sample test data - base64 encoded resume
 sample_resume_text = """
