@@ -27,7 +27,7 @@ app.add_middleware(
 )
 
 # Configure Google Gemini
-GEMINI_API_KEY = 'AIzaSyBi4OBB4-Vo5ATsBxspJEwgnkgEYKEJdsQ'
+GEMINI_API_KEY = 'Key here'
 gemini_client = genai.Client(api_key=GEMINI_API_KEY)
 gemini_model = "gemini-2.0-flash"
 
