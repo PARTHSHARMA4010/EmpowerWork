@@ -11,7 +11,7 @@ export const createOpeningPost = async (req, res) => {
         res.status(201).json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
-    }
+    } 
 };
 
 // Get a specific job opening by ID
