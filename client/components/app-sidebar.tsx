@@ -11,7 +11,7 @@ import {
   LogIn,
   UserPlus,
   Menu,
-  LogOut, // Import the LogOut icon
+  LogOut,
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -28,7 +28,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useEffect, useState } from "react"
-import { supabase } from "@/lib/supabaseClient" // Adjust the import based on your project structure
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import { auth } from "@/lib/firebaseClient" // Adjust this import based on your Firebase setup
 
 const mainNavItems = [
   {
@@ -71,32 +72,28 @@ const mainNavItems = [
 export function AppSidebar() {
   const pathname = usePathname()
   const { isMobile } = useSidebar()
-  const router = useRouter();
+  const router = useRouter()
   
   const [user, setUser] = useState(null)
 
-  // Check user authentication state
+  // Check user authentication state using Firebase
   useEffect(() => {
-    const session = supabase.auth.getSession()
-    
-    if (session) {
-      setUser(session.user)
-    }
-
-    const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user || null)
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
     })
 
-    return () => {
-      authListener.subscription.unsubscribe()
-    }
+    // Cleanup subscription on unmount
+    return () => unsubscribe()
   }, [])
 
-  // Sign out function
+  // Sign out function using Firebase
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    setUser(null)
-    router.push("/")
+    try {
+      await signOut(auth)
+      router.push("/")
+    } catch (error) {
+      console.error("Error signing out:", error)
+    }
   }
 
   return (
@@ -140,7 +137,7 @@ export function AppSidebar() {
           <div className="grid grid-cols-2 gap-2">
             {user ? (
               // Show Sign Out button if user is logged in
-              <Button size="sm" color="anger" variant="outline" onClick={handleSignOut} className="w-full">
+              <Button size="sm" variant="outline" onClick={handleSignOut} className="w-full bg-red-500 border">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Sign Out</span>
               </Button>
